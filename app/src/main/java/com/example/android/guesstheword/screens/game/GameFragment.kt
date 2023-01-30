@@ -72,6 +72,8 @@ class GameFragment : Fragment() {
             binding.wordText.text = actualWord
         })
 
+//        viewModel.score.value = -10000 // Doesn't work cause LiveData only for reading
+
         return binding.root
     }
 
