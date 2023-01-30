@@ -21,6 +21,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -72,8 +73,11 @@ class GameFragment : Fragment() {
             binding.wordText.text = actualWord
         })
 
-//        viewModel.score.value = -10000 // Doesn't work cause LiveData only for reading
-
+        viewModel.gameFinish.observe(this as LifecycleOwner, Observer { finish ->
+            if (finish) {
+                gameFinished()
+            }
+        })
         return binding.root
     }
 
@@ -81,7 +85,8 @@ class GameFragment : Fragment() {
      * Called when the game is finished
      */
     private fun gameFinished() {
-        val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
-        findNavController(this).navigate(action)
+//        val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
+//        findNavController(this).navigate(action)
+        Toast.makeText(this.context, "Game over!", Toast.LENGTH_SHORT).show()
     }
 }
