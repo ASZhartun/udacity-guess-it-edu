@@ -53,16 +53,17 @@ class GameViewModel : ViewModel() {
             val sdf = SimpleDateFormat("mm:SS", Locale.ROOT)
             override fun onTick(p0: Long) {
                 p0.plus(1)
-                val date = Calendar.getInstance()
+                val date = Calendar.getInstance() as Calendar
                 date.timeInMillis = p0
                 _time.value = sdf.format(date)
-
+                Log.i("GameViewModel", "time is $_time")
             }
 
             override fun onFinish() {
                 TODO("Not yet implemented")
             }
         }
+        timer.start()
         _time.value = "00:00"
         resetList()
         nextWord()
