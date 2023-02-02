@@ -17,7 +17,7 @@ class GameViewModel : ViewModel() {
         const val ONE_SECOND = 1000L
 
         // This is the total time of the game
-        const val COUNTDOWN_TIME = 10000L
+        const val COUNTDOWN_TIME = 5000L
     }
 
     // The current word
