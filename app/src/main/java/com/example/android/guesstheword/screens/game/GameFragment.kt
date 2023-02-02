@@ -57,14 +57,15 @@ class GameFragment : Fragment() {
 //        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
         binding.gameViewModel = viewModel
+        binding.lifecycleOwner = this
 
-        viewModel.score.observe(this as LifecycleOwner, Observer { actualScore ->
-            binding.scoreText.text = actualScore.toString()
-        })
-
-        viewModel.word.observe(this as LifecycleOwner, Observer { actualWord ->
-            binding.wordText.text = actualWord
-        })
+//        viewModel.score.observe(this as LifecycleOwner, Observer { actualScore ->
+//            binding.scoreText.text = actualScore.toString()
+//        })
+//
+//        viewModel.word.observe(this as LifecycleOwner, Observer { actualWord ->
+//            binding.wordText.text = actualWord
+//        })
 
         viewModel.gameFinish.observe(this as LifecycleOwner, Observer { finish ->
             if (finish) {
