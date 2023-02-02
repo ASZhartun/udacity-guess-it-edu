@@ -1,13 +1,11 @@
 package com.example.android.guesstheword.screens.game
 
 import android.os.CountDownTimer
+import android.text.format.DateUtils
 import android.util.Log
-import androidx.core.util.TimeUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import java.text.SimpleDateFormat
-import java.util.*
 
 class GameViewModel : ViewModel() {
     companion object {
@@ -19,7 +17,7 @@ class GameViewModel : ViewModel() {
         const val ONE_SECOND = 1000L
 
         // This is the total time of the game
-        const val COUNTDOWN_TIME = 60000L
+        const val COUNTDOWN_TIME = 10000L
     }
 
     // The current word
@@ -50,21 +48,21 @@ class GameViewModel : ViewModel() {
         _score.value = 0
 
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
-            val sdf = SimpleDateFormat("mm:SS", Locale.ROOT)
             override fun onTick(p0: Long) {
-                p0.plus(1)
-                val date = Calendar.getInstance() as Calendar
-                date.timeInMillis = p0
-                _time.value = sdf.format(date)
-                Log.i("GameViewModel", "time is $_time")
+                Log.i("GameViewModel", "start value and next of p0: $p0")
+//                p0.plus(ONE_SECOND)
+                val timerValue = DateUtils.formatElapsedTime(null, p0 / ONE_SECOND)
+                Log.i("GameViewModel", "string time: $timerValue")
+                _time.value = timerValue
             }
 
             override fun onFinish() {
-                TODO("Not yet implemented")
+                _time.value = DateUtils.formatElapsedTime(DONE)
+                onGameFinish()
             }
         }
         timer.start()
-        _time.value = "00:00"
+
         resetList()
         nextWord()
     }
@@ -124,6 +122,10 @@ class GameViewModel : ViewModel() {
 
     private fun onGameComplete() {
         _gameFinish.value = false
+    }
+
+    private fun onGameFinish() {
+        _gameFinish.value = true
     }
 
     override fun onCleared() {
