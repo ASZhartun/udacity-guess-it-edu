@@ -21,7 +21,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -73,9 +72,12 @@ class GameFragment : Fragment() {
             }
         })
 
-        viewModel.time.observe(this as LifecycleOwner, Observer {
-            binding.timerText.text = it
-        })
+//        viewModel.time.observe(this as LifecycleOwner, Observer { time ->
+//            Log.i("GameFragment", "new time in ms: $time")
+//            val fet = DateUtils.formatElapsedTime(null, time / GameViewModel.ONE_SECOND)
+//            Log.i("GameFragment", "time was changed: $fet")
+//            binding.timerText.text = fet
+//        })
         return binding.root
     }
 

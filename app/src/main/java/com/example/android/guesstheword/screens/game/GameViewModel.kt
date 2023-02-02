@@ -5,6 +5,7 @@ import android.text.format.DateUtils
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
@@ -36,9 +37,13 @@ class GameViewModel : ViewModel() {
 
     private val timer: CountDownTimer
 
-    private val _time = MutableLiveData<String>()
-    val time: LiveData<String>
+    private val _time = MutableLiveData<Long>()
+    val time: LiveData<Long>
         get() = _time
+
+    val currentTimeString = Transformations.map(_time) { time ->
+        DateUtils.formatElapsedTime(null, time / ONE_SECOND)
+    }
 
     // The list of words - the front of the list is the next word to guess
     private lateinit var wordList: MutableList<String>
@@ -50,14 +55,11 @@ class GameViewModel : ViewModel() {
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
             override fun onTick(p0: Long) {
                 Log.i("GameViewModel", "start value and next of p0: $p0")
-//                p0.plus(ONE_SECOND)
-                val timerValue = DateUtils.formatElapsedTime(null, p0 / ONE_SECOND)
-                Log.i("GameViewModel", "string time: $timerValue")
-                _time.value = timerValue
+                _time.value = p0
             }
 
             override fun onFinish() {
-                _time.value = DateUtils.formatElapsedTime(DONE)
+                _time.value = DONE
                 onGameFinish()
             }
         }
